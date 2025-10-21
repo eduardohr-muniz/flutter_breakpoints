@@ -40,7 +40,7 @@ class FlutterBreakpointProvider extends InheritedWidget {
   });
 
   @override
-  bool updateShouldNotify(FlutterBreakpointProvider oldWidget) => breakpoint != oldWidget.breakpoint || size != oldWidget.size;
+  bool updateShouldNotify(FlutterBreakpointProvider oldWidget) => breakpoint != oldWidget.breakpoint;
 
   static Widget builder({
     required BuildContext context,
@@ -57,7 +57,7 @@ class FlutterBreakpointProvider extends InheritedWidget {
 
   static FlutterBreakpointProvider of(BuildContext context) {
     final responsiveProvider = context.dependOnInheritedWidgetOfExactType<FlutterBreakpointProvider>();
-    assert(responsiveProvider != null, "UiResponsiveProvider não foi encontrado no contexto!");
+    assert(responsiveProvider != null, "UiResponsiveProvider was not found in the context!");
     return responsiveProvider!;
   }
 
@@ -71,16 +71,6 @@ class FlutterBreakpointProvider extends InheritedWidget {
       log("Change to -> ${result.name}", name: 'Breakpoint');
       WidgetsBinding.instance.addPostFrameCallback((_) {
         deviceCallBack(result);
-      });
-    }
-  }
-
-  static void _modifySize(BuildContext context, void Function(Size) sizeCallBack) {
-    final provider = FlutterBreakpointProvider.of(context);
-    final Size size = MediaQuery.sizeOf(context);
-    if (provider.size != size) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        sizeCallBack(size);
       });
     }
   }
@@ -112,7 +102,6 @@ class _BuildListenerState extends State<_BuildListener> {
 
   void modifyDevice(BuildContext context) {
     FlutterBreakpointProvider._modifyDevice(context, _breakPoints, (newDevice) => setState(() => device = newDevice));
-    FlutterBreakpointProvider._modifySize(context, (newSize) => setState(() => size = newSize));
   }
 
   @override
