@@ -27,7 +27,6 @@ class ResponsivePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('oi');
     final isMobile = Breakpoints.mobile.isBreakpoint(context);
     final isTablet = Breakpoints.tablet.isBreakpoint(context);
     final isDesktop = Breakpoints.desktop.isBreakpoint(context) || Breakpoints.largeDesktop.isBreakpoint(context);
